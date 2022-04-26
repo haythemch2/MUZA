@@ -89,7 +89,7 @@ export default function SearchItem({ config }) {
       onChange={onChange}
       notFoundContent={!isSuccess ? <Empty /> : ""}
       allowClear={true}
-      placeholder="Your Search here"
+      placeholder="Tapez ici pour rechercher"
     >
       <Input suffix={<SearchOutlined />} />
     </AutoComplete>

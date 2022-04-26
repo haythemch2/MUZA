@@ -27,7 +27,7 @@ const request = {
       return errorHandler(error);
     }
   },
-  read: async (entity, id) => {
+  read : async (entity, id) => {
     axiosInstance.defaults.headers = {
       ...headersInstance,
     };
@@ -52,7 +52,6 @@ const request = {
       return errorHandler(error);
     }
   },
-
   delete: async (entity, id, option = {}) => {
     axiosInstance.defaults.headers = {
       ...headersInstance,
@@ -64,7 +63,6 @@ const request = {
       return errorHandler(error);
     }
   },
-
   filter: async (entity, option = {}) => {
     axiosInstance.defaults.headers = {
       ...headersInstance,
@@ -73,14 +71,12 @@ const request = {
       let filter = option.filter ? "filter=" + option.filter : "";
       let equal = option.equal ? "&equal=" + option.equal : "";
       let query = `?${filter}${equal}`;
-
       const response = await axiosInstance.get(entity + "/filter" + query);
       return successHandler(response);
     } catch (error) {
       return errorHandler(error);
     }
   },
-
   search: async (entity, source, option = {}) => {
     axiosInstance.defaults.headers = {
       [ACCESS_TOKEN_NAME]: tokenCookies.get(),

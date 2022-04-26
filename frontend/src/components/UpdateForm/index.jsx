@@ -33,10 +33,10 @@ export default function UpdateForm({ config, formElements }) {
         };
       }
     }
-
     const id = current._id;
     dispatch(crud.update(entity, id, fieldsValue));
   };
+  
   useEffect(() => {
     if (current) {
       if (current.birthday) {
@@ -72,7 +72,7 @@ export default function UpdateForm({ config, formElements }) {
           {formElements}
           <Form.Item>
             <Button type="primary" htmlType="submit">
-              Submit
+            Soumettre
             </Button>
           </Form.Item>
         </Form>

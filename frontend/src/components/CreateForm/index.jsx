@@ -30,7 +30,6 @@ export default function CreateForm({ config, formElements }) {
         };
       }
     }
-
     dispatch(crud.create(entity, fieldsValue));
   };
 
@@ -51,7 +50,7 @@ export default function CreateForm({ config, formElements }) {
         {formElements}
         <Form.Item>
           <Button type="primary" htmlType="submit">
-            Submit
+          Soumettre
           </Button>
         </Form.Item>
       </Form>

@@ -18,7 +18,7 @@ export default function AdminForm({ isUpdateForm = false }) {
       </Form.Item>
       {!isUpdateForm && (
         <Form.Item
-          label="Password"
+          label="Mot de passe"
           name="password"
           rules={[
             {
@@ -32,7 +32,7 @@ export default function AdminForm({ isUpdateForm = false }) {
       )}
 
       <Form.Item
-        label="name"
+        label="Nom"
         name="name"
         rules={[
           {
@@ -43,7 +43,7 @@ export default function AdminForm({ isUpdateForm = false }) {
         <Input autoComplete="off" />
       </Form.Item>
       <Form.Item
-        label="surname"
+        label="Prénom"
         name="surname"
         rules={[
           {

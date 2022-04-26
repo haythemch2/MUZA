@@ -73,7 +73,7 @@ const LoginPage = () => {
                     rules={[
                       {
                         required: true,
-                        message: 'Please input your Password!'
+                        message: 'Veuillez saisir votre mot de passe!'
                       }
                     ]}
                   >

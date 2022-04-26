@@ -15,8 +15,6 @@ export default function ReadItem({ config }) {
 
   const isFirstRun = useRef(true);
   useEffect(() => {
-    console.log("currentResult :", currentResult);
-    console.log("readColumns :", readColumns);
     if (isFirstRun.current) {
       isFirstRun.current = false;
       return;
@@ -26,7 +24,12 @@ export default function ReadItem({ config }) {
       const propsKey = props.dataIndex;
       const propsTitle = props.title;
       const value = valueByString(currentResult, propsKey);
-      list.push({ propsKey, label: propsTitle, value: value });
+      list.push({
+        propsKey,
+        label: propsTitle,
+        value: value,
+        render: props.render
+      });
     });
     setListState(list);
   }, [currentResult]);
@@ -41,11 +44,13 @@ export default function ReadItem({ config }) {
         <Col className="gutter-row" span={8}>
           <p>{item.label}</p>
         </Col>
-        <Col className="gutter-row" span={2}>
-          <p> : </p>
-        </Col>
+        {
+          item.label?.length ? <Col className="gutter-row" span={2}>
+            <p> : </p>
+          </Col> : <></>
+        }
         <Col className="gutter-row" span={14}>
-          <p>{item.value}</p>
+          <p>{item.render ? item.render(item.value) : item.value}</p>
         </Col>
       </Row>
     );

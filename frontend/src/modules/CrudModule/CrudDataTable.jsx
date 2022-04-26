@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Button, Menu } from "antd";
-import { EyeOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import { EyeOutlined, EditOutlined, DeleteOutlined, CloseOutlined, FireOutlined, FireFilled, CloseSquareOutlined, CheckSquareOutlined } from "@ant-design/icons";
 import { useSelector, useDispatch } from "react-redux";
 import { crud } from "@/redux/crud/actions";
 import { selectItemById } from "@/redux/crud/selectors";
@@ -17,7 +17,6 @@ function AddNewItem({ config }) {
     panel.open();
     collapsedBox.close();
   };
-
   return (
     <Button onClick={handelClick} type="primary">
       {ADD_NEW_ENTITY}
@@ -41,6 +40,18 @@ function DropDownRowMenu({ row }) {
     panel.open();
     collapsedBox.open();
   }
+  function ToggleFeatured() {
+    dispatch(crud.update("client", item._id, {
+      ...item,
+      featured: !item.featured
+    }));
+  }
+  function ToggleEnabled() {
+    dispatch(crud.update("client", item._id, {
+      ...item,
+      enabled: !item.enabled
+    }));
+  }
   function Delete() {
     dispatch(crud.currentAction("delete", item));
     modal.open();
@@ -51,7 +62,24 @@ function DropDownRowMenu({ row }) {
         Show
       </Menu.Item>
       <Menu.Item key={`${uniqueId()}`} icon={<EditOutlined />} onClick={Edit}>
-        Edit
+        Modifier
+      </Menu.Item>
+      <Menu.Item
+        key={`${uniqueId()}`}
+        icon={
+          item.enabled ? <CloseSquareOutlined /> : <CheckSquareOutlined />
+        } onClick={ToggleEnabled}>
+        Bascule activée
+      </Menu.Item>
+      <Menu.Item
+        key={`${uniqueId()}`}
+        icon={
+          item.featured ? <FireOutlined /> : <FireFilled />
+        }
+        onClick={ToggleFeatured}>
+        {
+           item.featured  ? "En vedette" : "Pas en vedette"
+        }
       </Menu.Item>
       <Menu.Item
         key={`${uniqueId()}`}

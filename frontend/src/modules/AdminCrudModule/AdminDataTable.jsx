@@ -69,21 +69,21 @@ function DropDownRowMenu({ row }) {
         Show
       </Menu.Item>
       <Menu.Item key={`${uniqueId()}`} icon={<EditOutlined />} onClick={Edit}>
-        Edit
+      Modifier
       </Menu.Item>
       <Menu.Item
         key={`${uniqueId()}`}
         icon={<LockOutlined />}
         onClick={UpdatePassword}
       >
-        Update Password
+        Mettre à jour le mot de passe
       </Menu.Item>
       <Menu.Item
         key={`${uniqueId()}`}
         icon={<DeleteOutlined />}
         onClick={Delete}
       >
-        Delete
+        Supprimer
       </Menu.Item>
     </Menu>
   );

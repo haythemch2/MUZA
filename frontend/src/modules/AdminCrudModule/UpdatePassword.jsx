@@ -46,11 +46,11 @@ export default function UpdatePassword({ config }) {
   return (
     <div style={show}>
       <Loading isLoading={isLoading}>
-        <h3>Update Password</h3>
+        <h3>Mettre à jour le mot de passe</h3>
         <div className="space"></div>
         <Form form={form} layout="vertical" onFinish={handelSubmit}>
           <Form.Item
-            label="New Password"
+            label="Nouveau mot de passe"
             name="password"
             rules={[
               {

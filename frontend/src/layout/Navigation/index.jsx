@@ -35,7 +35,7 @@ function Navigation() {
         <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
           <Menu.Item key="1" icon={<DashboardOutlined />}>
             <Link to="/" />
-            Acceuil
+            Accueil
           </Menu.Item>
           <Menu.Item key="2" icon={<UserOutlined />}>
             <Link to="/customer">Utilisateurs</Link>
@@ -53,13 +53,16 @@ function Navigation() {
           </Menu.Item> */}
           <Menu.Item key="31" icon={<TeamOutlined />}>
             <Link to="/admin" />
-            Admins Management
+            Gestion des administrateurs
           </Menu.Item>
-
-          {/* <Menu.Item key="32" icon={<SettingOutlined />}>
-            <Link to="/settings" />
-            Settings
-          </Menu.Item> */}
+          {
+            /*
+          <Menu.Item key="32" icon={<TeamOutlined />}>
+            <Link to="/Posts" />
+            Gestion des contenu
+            </Menu.Item>
+            */
+          }
         </Menu>
       </Sider>
     </>

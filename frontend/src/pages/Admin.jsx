@@ -6,27 +6,27 @@ import AdminForm from '@/forms/AdminForm';
 export default function Admin() {
   const entity = 'admin';
   const searchConfig = {
-    displayLabels: ['name', 'surname'],
+    displayLabels: ['Nom', 'Prénom'],
     searchFields: 'email,name,surname',
     outputValue: '_id'
   };
 
-  const panelTitle = 'Admin Panel';
-  const dataTableTitle = 'Admin Lists';
+  const panelTitle = 'Panneau des administrateurs';
+  const dataTableTitle = 'Liste des administrateurs';
   const entityDisplayLabels = ['email'];
 
   const readColumns = [
-    { title: 'Name', dataIndex: 'name' },
-    { title: 'Surname', dataIndex: 'surname' },
-    { title: 'Email', dataIndex: 'email' }
+    { title: 'Nom', dataIndex: 'name' },
+    { title: 'Nom de famille', dataIndex: 'surname' },
+    { title: 'E-mail', dataIndex: 'email' }
   ];
 
   const dataTableColumns = [
-    { title: 'Name', dataIndex: 'name' },
-    { title: 'Surname', dataIndex: 'surname' },
-    { title: 'Email', dataIndex: 'email' }
+    { title: 'Nom', dataIndex: 'name' },
+    { title: 'Nom de famille', dataIndex: 'surname' },
+    { title: 'E-mail', dataIndex: 'email' }
   ];
-  const ADD_NEW_ENTITY = 'Add new admin';
+  const ADD_NEW_ENTITY = 'Ajouter un nouvel administrateur';
   const DATATABLE_TITLE = 'Admins List';
   const ENTITY_NAME = 'admin';
   const CREATE_ENTITY = 'Create admin';

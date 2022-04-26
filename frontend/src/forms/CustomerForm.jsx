@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Button, Form, Input, Select } from 'antd';
 import { Upload, Modal } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
+import Item from 'antd/lib/list/Item';
 
 export default function CustomerForm({ isUpdateForm = false }) {
   function getBase64(file) {
@@ -14,32 +15,61 @@ export default function CustomerForm({ isUpdateForm = false }) {
   }
   const { Option } = Select;
 
-  const [previewVisible, setPreviewVisible] = useState(false);
-  const [previewImage, setPreviewImage] = useState('');
-  const [previewTitle, setPreviewTitle] = useState('');
-  const [fileList, setFileList] = useState([]);
+  const [profilePic, setProfilePic] = useState(null)
+  const [role, setRole] = useState("user")
 
-  const handleCancel = () => setPreviewVisible(false);
 
-  const handlePreview = async (file) => {
-    if (!file.url && !file.preview) {
-      file.preview = await getBase64(file.originFileObj);
-    }
-    setPreviewImage(file.url || file.preview);
-    setPreviewVisible(true);
-    setPreviewTitle(
-      file.name || file.url.substring(file.url.lastIndexOf('/') + 1)
-    );
-  };
-  const handleChange = ({ fileList }) => setFileList(fileList);
-  const uploadButton = (
-    <div>
-      <PlusOutlined />
-      <div style={{ marginTop: 8 }}>Upload</div>
-    </div>
-  );
+
+  let ProfileImage = ({ name, value, onUpload, onChange }) => {
+    const ref = useRef()
+    const uploadImg = (e) => {
+      const data = new FormData();
+      data.append("file", e.target.files[0]);
+      data.append("upload_preset", "ywtxhaze");
+      data.append("cloud_name", "dh8bgpvun");
+      fetch("https://api.cloudinary.com/v1_1/dh8bgpvun/image/upload", {
+        method: "post",
+        body: data,
+      })
+        .then((res) => res.json())
+        .then(async (data) => {
+          onChange(data.url)
+          onUpload(data.url)
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+    return <>
+      <Input
+        type="file"
+        id="file-input"
+        onChange={uploadImg}
+        style={{ display: "none" }}
+        ref={ref}
+      />
+      <img style={{
+        width: 80, height: 80,
+        borderRadius: 40, cursor: "pointer"
+      }}
+        src={value || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHfd3PPulVSp4ZbuBFNkePoUR_fLJQe474Ag&usqp=CAU"}
+        alt="Profile picture"
+        onClick={() => console.log(ref.current.input.click())}
+      />
+    </>
+  }
+
+
   return (
     <>
+      <Form.Item
+        label="Profile picture"
+        name="url"
+      >
+        <ProfileImage
+          onUpload={(url) => setProfilePic(url)}
+        />
+      </Form.Item>
       <Form.Item
         label="Role"
         name="role"
@@ -53,29 +83,28 @@ export default function CustomerForm({ isUpdateForm = false }) {
         <Select
           defaultValue="user"
           style={{ width: 120 }}
-          onChange={handleChange}
+          onChange={(v) => setRole(v)}
         >
+          <Option value="dj">dj</Option>
           <Option value="artist">Artist</Option>
           <Option value="maison">maison</Option>
-          <Option value="admin" disabled>
-            admin
-          </Option>
+          <Option value="manager" >manager</Option>
+          <Option value="sponsor" >sponsor</Option>
+          <Option value="studio" >studio</Option>
+          <Option value="photographer" >photographer</Option>
+          <Option value="son" >ingenieur de son</Option>
+          <Option value="directeur artistique" >directeur</Option>
+          <Option value="media" >media</Option>
+          <Option value="camera man" >camera man</Option>
+          <Option value="styliste" >styliste</Option>
+          <Option value="beatmaker" >beatmaker</Option>
+          <Option value="clipeur" >clipeur</Option>
+          <Option value="salle" >salle</Option>
+          <Option value="admin" disabled>admin</Option>
         </Select>
       </Form.Item>
-      {/* <Form.Item
-        label="Titre"
-        name="company"
-        rules={[
-          {
-            required: true,
-            message: 'Please input your company name!'
-          }
-        ]}
-      >
-        <Input />
-      </Form.Item> */}
       <Form.Item
-        label="Prenom"
+        label="Prénom"
         name="surname"
         rules={[
           {
@@ -111,7 +140,7 @@ export default function CustomerForm({ isUpdateForm = false }) {
 
       <Form.Item
         name="phone"
-        label="Phone"
+        label="Téléphone"
         rules={[
           {
             required: true,
@@ -137,6 +166,7 @@ export default function CustomerForm({ isUpdateForm = false }) {
       >
         <Input />
       </Form.Item>
+
       <Form.Item
         name="password"
         label="Mot de passe"
@@ -150,38 +180,19 @@ export default function CustomerForm({ isUpdateForm = false }) {
       >
         <Input />
       </Form.Item>
-      {/* <>
-        <h3>Galerie</h3>
-        <Upload
-          action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-          listType="picture-card"
-          fileList={fileList}
-          onPreview={handlePreview}
-          onChange={handleChange}
-        >
-          {fileList.length >= 8 ? null : uploadButton}
-        </Upload>
-        <Modal
-          visible={previewVisible}
-          title={previewTitle}
-          footer={null}
-          onCancel={handleCancel}
-        >
-          <img alt="example" style={{ width: '100%' }} src={previewImage} />
-        </Modal>
-      </>
       <Form.Item
-        name="youtube"
-        label="Liens youtube"
+        name="address"
+        label="Addresse"
         rules={[
           {
-            required: false,
-            message: 'Please input your password!'
+            required: true,
+            message: 'Please input your Address!'
           }
         ]}
       >
         <Input />
-      </Form.Item> */}
+      </Form.Item>
+
     </>
   );
 }

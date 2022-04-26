@@ -19,7 +19,7 @@ export default function LeadForm({ isUpdateForm = false }) {
       </Form.Item>
       <Form.Item
         name="phone"
-        label="Phone"
+        label="Téléphone"
         rules={[
           {
             required: true,

@@ -12,6 +12,11 @@ const Admin = lazy(() =>
   import(/*webpackChunkName:'AdminPage'*/ '@/pages/Admin')
 );
 
+if (0) {
+  const Posts = lazy(() =>
+    import(/*webpackChunkName:'AdminPage'*/ '@/pages/Posts')
+  );
+}
 const Customer = lazy(() =>
   import(/*webpackChunkName:'CustomerPage'*/ '@/pages/Customer')
 );
@@ -48,6 +53,9 @@ export default function AppRouter() {
           <PrivateRoute component={Lead} path="/lead" exact />
           <PrivateRoute component={Product} path="/product" exact />
           <PrivateRoute component={Admin} path="/admin" exact />
+          {/*
+          <PrivateRoute component={Posts} path="/posts" exact />
+          */}
 
           <PrivateRoute component={Logout} path="/logout" exact />
           <PublicRoute path="/login" render={() => <Redirect to="/" />} />

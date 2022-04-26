@@ -175,7 +175,7 @@ export default function DataTable({ config, DropDownRowMenu, AddNewItem }) {
         extra={[
           <MakeNewColor key={`${uniqueId()}`} config={config} />,
           <Button onClick={handelDataTableLoad} key={`${uniqueId()}`}>
-            Refresh
+            Rafraîchir
           </Button>,
           <AddNewItem key={`${uniqueId()}`} config={config} />,
         ]}

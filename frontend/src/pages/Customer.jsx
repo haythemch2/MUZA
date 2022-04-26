@@ -6,17 +6,23 @@ import CustomerForm from '@/forms/CustomerForm';
 function Customer() {
   const entity = 'client';
   const searchConfig = {
-    displayLabels: ['company', 'surname', 'name'],
+    displayLabels: ['société', 'Nom de famille', 'Nom'],
     searchFields: 'company,surname,name',
     outputValue: '_id'
   };
 
-  const panelTitle = 'Panel utilisateurs';
+  const panelTitle = "Panneau de l'utilisateurs";
   const dataTableTitle = 'Listes des utilisateurs';
   const entityDisplayLabels = ['company'];
 
   const readColumns = [
     {
+      title: "",
+      dataIndex: "url",
+      render: (value) => {
+        return <img src={value} style={{ width: 120, height: 120 ,borderRadius : 60 }} />
+      },
+    }, {
       title: 'Title',
       dataIndex: 'company'
     },
@@ -33,11 +39,16 @@ function Customer() {
       dataIndex: 'email'
     },
     {
-      title: 'Phone',
+      title: 'Téléphone',
       dataIndex: 'phone'
+    },
+    {
+      title: 'Addresse',
+      dataIndex: 'address'
     }
   ];
   const dataTableColumns = [
+
     {
       title: 'Role',
       dataIndex: 'role'
@@ -47,12 +58,16 @@ function Customer() {
       dataIndex: 'name'
     },
     {
-      title: 'Prenom',
+      title: 'Prénom',
       dataIndex: 'surname'
     },
     {
       title: 'Email',
       dataIndex: 'email'
+    },
+    {
+      title: 'Addresse',
+      dataIndex: 'address'
     }
   ];
 
@@ -79,6 +94,7 @@ function Customer() {
     <CrudModule
       createForm={<CustomerForm />}
       updateForm={<CustomerForm isUpdateForm={true} />}
+
       config={config}
     />
   );

@@ -33,7 +33,7 @@ function SelectCustomer() {
       dataIndex: 'email'
     },
     {
-      title: 'Phone',
+      title: 'Téléphone',
       dataIndex: 'phone'
     }
   ];

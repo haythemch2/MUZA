@@ -7,6 +7,10 @@ const clientSchema = new mongoose.Schema({
     type: Boolean,
     default: true
   },
+  featured: {
+    type: Boolean,
+    default: false
+  },
   role: {
     type: String,
     default: 'user'

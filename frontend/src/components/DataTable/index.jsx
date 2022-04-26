@@ -46,7 +46,7 @@ export default function DataTable({ config, DropDownRowMenu, AddNewItem }) {
         ghost={false}
         extra={[
           <Button onClick={handelDataTableLoad} key={`${uniqueId()}`}>
-            Refresh
+            Rafraîchir
           </Button>,
           <AddNewItem key={`${uniqueId()}`} config={config} />,
         ]}

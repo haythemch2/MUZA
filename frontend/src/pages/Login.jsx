@@ -7,6 +7,7 @@ import { login } from '@/redux/auth/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { auth } from '@/redux/auth/actions';
 import { selectAuth } from '@/redux/auth/selectors';
+import logo from '../utils/logo.png';
 const { Content, Footer } = Layout;
 
 const LoginPage = () => {
@@ -35,7 +36,7 @@ const LoginPage = () => {
                 margin: '0 auto'
               }}
             >
-              <h1>Login</h1>
+              <h1>Authentification</h1>
               {/* {error && (
                 <ErrorNotice
                   message={error}
@@ -58,13 +59,13 @@ const LoginPage = () => {
                     rules={[
                       {
                         required: true,
-                        message: 'Please input your Email!'
+                        message: 'Tapez votre email !'
                       }
                     ]}
                   >
                     <Input
                       prefix={<UserOutlined className="site-form-item-icon" />}
-                      placeholder="admin@demo.com"
+                      placeholder="email"
                       autoComplete="off"
                     />
                   </Form.Item>
@@ -80,17 +81,17 @@ const LoginPage = () => {
                     <Input
                       prefix={<LockOutlined className="site-form-item-icon" />}
                       type="password"
-                      placeholder="123456"
+                      placeholder="mot de passe"
                       autoComplete="off"
                     />
                   </Form.Item>
                   <Form.Item>
                     <Form.Item name="remember" valuePropName="checked" noStyle>
-                      <Checkbox>Remember me</Checkbox>
+                      <Checkbox>souviens-moi</Checkbox>
                     </Form.Item>
 
                     <a className="login-form-forgot" href="">
-                      Forgot password
+                      Mot de passe oubliée
                     </a>
                   </Form.Item>
 
@@ -101,9 +102,8 @@ const LoginPage = () => {
                       className="login-form-button"
                       loading={isLoading}
                     >
-                      Log in
+                      Se connecter
                     </Button>
-                    Or <a href="">register now!</a>
                   </Form.Item>
                 </Form>
               </div>
@@ -111,7 +111,10 @@ const LoginPage = () => {
           </Col>
         </Row>
 
-        <Footer style={{ textAlign: 'center' }}>Fast Dream Panel ©2022</Footer>
+        <Footer style={{ textAlign: 'center' }}>
+          <img src={logo} width="150" />
+          Fast Dream Panel ©2022
+        </Footer>
       </Layout>
     </>
   );

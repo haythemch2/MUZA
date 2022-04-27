@@ -29,12 +29,16 @@ mongoose.connection.on("error", (err) => {
 const glob = require("glob");
 const path = require("path");
 
+
 glob.sync("./models/*.js").forEach(function (file) {
   require(path.resolve(file));
 });
 
 // Start our app!
 const app = require("./app");
+
+
+
 app.set("port", process.env.PORT || 80);
 const server = app.listen(app.get("port"), () => {
   console.log(`Express running → On PORT : ${server.address().port}`);

@@ -119,11 +119,6 @@ export default function Dashboard() {
 
   const productColumns = [
     {
-      title: 'Product Name',
-      dataIndex: 'productName'
-    },
-
-    {
       title: 'Price',
       dataIndex: 'price'
     },
@@ -254,30 +249,6 @@ export default function Dashboard() {
         </Col>
       </Row>
       <div className="space30"></div>
-      {/* <Row gutter={[24, 24]}>
-        <Col className="gutter-row" span={12}>
-          <div className="whiteBox shadow">
-            <div className="pad20">
-              <h3 style={{ color: '#22075e', marginBottom: 5 }}>
-                Recent Leads
-              </h3>
-            </div>
-
-            <RecentTable entity={'lead'} dataTableColumns={leadColumns} />
-          </div>
-        </Col>
-
-        <Col className="gutter-row" span={12}>
-          <div className="whiteBox shadow">
-            <div className="pad20">
-              <h3 style={{ color: '#22075e', marginBottom: 5 }}>
-                Recent Products
-              </h3>
-            </div>
-            <RecentTable entity={'product'} dataTableColumns={productColumns} />
-          </div>
-        </Col>
-      </Row> */}
     </DashboardLayout>
   );
 }

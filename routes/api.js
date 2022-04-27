@@ -6,8 +6,7 @@ const router = express.Router();
 const adminController = require("../controllers/adminController");
 const clientController = require("../controllers/clientController");
 
-const leadController = require("../controllers/leadController");
-const productController = require("../controllers/productController");
+const postController = require("../controllers/postController");
 
 //_______________________________ Admin management_______________________________
 
@@ -31,24 +30,13 @@ router.route("/client/delete/:id").delete(catchErrors(clientController.delete));
 router.route("/client/search").get(catchErrors(clientController.search));
 router.route("/client/list").get(catchErrors(clientController.list));
 
-//_____________________________________ API for leads ___________________________
-router.route("/lead/create").post(catchErrors(leadController.create));
-router.route("/lead/read/:id").get(catchErrors(leadController.read));
-router.route("/lead/update/:id").patch(catchErrors(leadController.update));
-router.route("/lead/delete/:id").delete(catchErrors(leadController.delete));
-router.route("/lead/search").get(catchErrors(leadController.search));
-router.route("/lead/list").get(catchErrors(leadController.list));
 
-//_____________________________________ API for products ___________________________
-router.route("/product/create").post(catchErrors(productController.create));
-router.route("/product/read/:id").get(catchErrors(productController.read));
-router
-  .route("/product/update/:id")
-  .patch(catchErrors(productController.update));
-router
-  .route("/product/delete/:id")
-  .delete(catchErrors(productController.delete));
-router.route("/product/search").get(catchErrors(productController.search));
-router.route("/product/list").get(catchErrors(productController.list));
+//_____________________________________ API for posts ___________________________
+router.route("/post/create").post(catchErrors(postController.create));
+router.route("/post/read/:id").get(catchErrors(postController.read));
+router.route("/post/update/:id").patch(catchErrors(postController.update));
+router.route("/post/delete/:id").delete(catchErrors(postController.delete));
+router.route("/post/search").get(catchErrors(postController.search));
+router.route("/post/list").get(catchErrors(postController.list));
 
 module.exports = router;

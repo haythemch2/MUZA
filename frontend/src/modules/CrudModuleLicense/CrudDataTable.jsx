@@ -18,6 +18,20 @@ import { useCrudContext } from '@/context/crud';
 import uniqueId from '@/utils/uinqueId';
 import DataTable from '@/components/DataTable';
 
+function AddNewItem({ config }) {
+  const { crudContextAction } = useCrudContext();
+  const { collapsedBox, panel } = crudContextAction;
+  const { ADD_NEW_ENTITY } = config;
+  const handelClick = () => {
+    panel.open();
+    collapsedBox.close();
+  };
+  return (
+    <Button onClick={handelClick} type="primary">
+      {ADD_NEW_ENTITY}
+    </Button>
+  );
+}
 function DropDownRowMenu({ row }) {
   const dispatch = useDispatch();
   const { crudContextAction } = useCrudContext();
@@ -35,59 +49,61 @@ function DropDownRowMenu({ row }) {
     panel.open();
     collapsedBox.open();
   }
-  function ToggleFeatured() {
-    dispatch(
-      crud.update('post', item._id, {
-        ...item,
-        featured: !item.featured
-      })
-    );
-  }
-  function ToggleEnabled() {
-    dispatch(
-      crud.update('post', item._id, {
-        ...item,
-        enabled: !item.enabled
-      })
-    );
-  }
+  // function ToggleFeatured() {
+  //   dispatch(crud.update("client", item._id, {
+  //     ...item,
+  //     featured: !item.featured
+  //   }));
+  // }
+  // function ToggleEnabled() {
+  //   dispatch(crud.update("client", item._id, {
+  //     ...item,
+  //     enabled: !item.enabled
+  //   }));
+  // }
   function Delete() {
     dispatch(crud.currentAction('delete', item));
     modal.open();
   }
   return (
     <Menu style={{ width: 130 }}>
-      {/* <Menu.Item key={`${uniqueId()}`} icon={<EyeOutlined />} onClick={Show}>
-        Show
+      <Menu.Item key={`${uniqueId()}`} icon={<EyeOutlined />} onClick={Show}>
+        Afficher
       </Menu.Item>
       <Menu.Item key={`${uniqueId()}`} icon={<EditOutlined />} onClick={Edit}>
         Modifier
       </Menu.Item>
-      <Menu.Item
+      {/* <Menu.Item
         key={`${uniqueId()}`}
-        icon={
-          item.enabled ? <CloseSquareOutlined /> : <CheckSquareOutlined />
-        } onClick={ToggleEnabled}>
+        icon={item.enabled ? <CloseSquareOutlined /> : <CheckSquareOutlined />}
+        onClick={ToggleEnabled}
+      >
         Bascule activée
-      </Menu.Item> */}
+      </Menu.Item>
       <Menu.Item
         key={`${uniqueId()}`}
         icon={item.featured ? <FireOutlined /> : <FireFilled />}
         onClick={ToggleFeatured}
       >
         {item.featured ? 'En vedette' : 'Pas en vedette'}
-      </Menu.Item>
+      </Menu.Item> */}
       <Menu.Item
         key={`${uniqueId()}`}
         icon={<DeleteOutlined />}
         onClick={Delete}
       >
-        Delete
+        Supprimer
       </Menu.Item>
     </Menu>
   );
 }
 
 export default function CrudDataTable({ config }) {
-  return <DataTable config={config} DropDownRowMenu={DropDownRowMenu} />;
+  return (
+    <DataTable
+      config={config}
+      DropDownRowMenu={DropDownRowMenu}
+      AddNewItem={AddNewItem}
+    />
+  );
 }

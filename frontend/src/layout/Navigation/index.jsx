@@ -48,6 +48,18 @@ function Navigation() {
             <Link to="/Posts" />
             Gestion de musique
           </Menu.Item>
+          <Menu.Item key="33" icon={<TeamOutlined />}>
+            <Link to="/licenses" />
+            Abonnements
+          </Menu.Item>
+          <Menu.Item key="34" icon={<TeamOutlined />}>
+            <Link to="/licenses" />
+            Coupons
+          </Menu.Item>
+          <Menu.Item key="35" icon={<TeamOutlined />}>
+            <Link to="/licenses" />
+            Messages
+          </Menu.Item>
         </Menu>
       </Sider>
     </>

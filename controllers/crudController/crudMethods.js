@@ -94,6 +94,7 @@ exports.update = async (Model, req, res) => {
       message: "we update this document by this id: " + req.params.id,
     });
   } catch (err) {
+    console.log({err});
     // If err is thrown by Mongoose due to required validations
     if (err.name == "ValidationError") {
       return res.status(400).json({

@@ -11,7 +11,6 @@ import useNetwork from '@/hooks/useNetwork';
 
 function App() {
   const { isOnline: isNetwork } = useNetwork();
-
   if (!isNetwork)
     return (
       <>

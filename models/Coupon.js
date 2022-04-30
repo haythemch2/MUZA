@@ -21,7 +21,7 @@ const couponSchema = new mongoose.Schema(
     usedIn: {
       type: mongoose.Schema.Types.ObjectId,
       required: false,
-      ref: 'Licence' //relation betwen the order and the user
+      ref: 'License' //relation betwen the order and the user
     }
   },
   {

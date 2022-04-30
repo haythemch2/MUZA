@@ -22,7 +22,6 @@ function AddNewItem({ config }) {
     panel.open();
     collapsedBox.close();
   };
-
   return (
     <Button onClick={handelClick} type="primary">
       {ADD_NEW_ENTITY}

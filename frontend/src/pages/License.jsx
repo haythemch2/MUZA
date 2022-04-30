@@ -3,6 +3,7 @@ import React from 'react';
 import CrudModule from '@/modules/CrudModuleLicense';
 import CustomerForm from '@/forms/CustomerForm';
 import LicenseForm from '@/forms/LicenseForm';
+import { request } from '@/request';
 
 function Customer() {
   const entity = 'license';
@@ -19,7 +20,10 @@ function Customer() {
   const readColumns = [
     {
       title: 'utilisateur',
-      dataIndex: 'user'
+      dataIndex: 'user',
+      render: (value) => {
+        return <span>{value}</span>
+      }
     },
     {
       title: 'Plan',

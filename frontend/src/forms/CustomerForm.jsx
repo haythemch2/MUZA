@@ -3,6 +3,21 @@ import { Button, Form, Input, Select } from 'antd';
 import { Upload, Modal } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import Item from 'antd/lib/list/Item';
+var bcrypt = require('bcryptjs');
+
+function PasswordUpdater({ value, onChange }) {
+  const [innerValue, setInnerValue] = useState("")
+  return <Input type="password" value={innerValue} onChange={(e) => {
+    const password = e.target.value;
+    setInnerValue(password)
+    bcrypt.hash(password, 10).then((hashedPassword) => {
+      onChange(hashedPassword)
+    }).catch(e => {
+      alert(e.message)
+    })
+  }} />
+}
+
 
 export default function CustomerForm({ isUpdateForm = false }) {
   function getBase64(file) {
@@ -17,6 +32,9 @@ export default function CustomerForm({ isUpdateForm = false }) {
 
   const [profilePic, setProfilePic] = useState(null)
   const [role, setRole] = useState("user")
+
+
+
 
 
 
@@ -167,19 +185,21 @@ export default function CustomerForm({ isUpdateForm = false }) {
         <Input />
       </Form.Item>
 
-      <Form.Item
-        name="password"
-        label="Mot de passe"
-        type="password"
-        rules={[
-          {
-            required: true,
-            message: 'Please input your password!'
-          }
-        ]}
-      >
-        <Input />
-      </Form.Item>
+      {
+        <Form.Item
+          name="password"
+          label="Mot de passe"
+          type="password"
+          rules={[
+            {
+              required: true,
+              message: 'Please input your password!'
+            }
+          ]}
+        >
+          <PasswordUpdater />
+        </Form.Item>
+      }
       <Form.Item
         name="address"
         label="Addresse"

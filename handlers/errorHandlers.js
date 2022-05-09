@@ -43,7 +43,7 @@ exports.developmentErrors = (err, req, res, next) => {
       "<mark>$&</mark>"
     ),
   };
-
+  console.log({errorDetails});
   res.status(500).json({
     success: false,
     message: "Oops ! Error in Server",
@@ -56,6 +56,7 @@ exports.developmentErrors = (err, req, res, next) => {
   No stacktraces are leaked to admin
 */
 exports.productionErrors = (err, req, res, next) => {
+  console.log({err});
   res.status(500).json({
     success: false,
     message: "Oops ! Error in Server",

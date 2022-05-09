@@ -40,29 +40,26 @@ function Navigation() {
           <Menu.Item key="2" icon={<UserOutlined />}>
             <Link to="/customer">Utilisateurs</Link>
           </Menu.Item>
-          {/* <Menu.Item key="24" icon={<UserOutlined />}>
-            <Link to="/selectcustomer">Utilisateurs+</Link>
-          </Menu.Item> */}
-          {/* <Menu.Item key="21" icon={<FileTextOutlined />}>
-            <Link to="/lead" />
-            Lead
-          </Menu.Item>
-          <Menu.Item key="3" icon={<FileSyncOutlined />}>
-            <Link to="/product" />
-            Product
-          </Menu.Item> */}
           <Menu.Item key="31" icon={<TeamOutlined />}>
             <Link to="/admin" />
             Gestion des administrateurs
           </Menu.Item>
-          {
-            /*
           <Menu.Item key="32" icon={<TeamOutlined />}>
             <Link to="/Posts" />
-            Gestion des contenu
-            </Menu.Item>
-            */
-          }
+            Gestion de musique
+          </Menu.Item>
+          <Menu.Item key="33" icon={<TeamOutlined />}>
+            <Link to="/licenses" />
+            Abonnements
+          </Menu.Item>
+          <Menu.Item key="34" icon={<TeamOutlined />}>
+            <Link to="/licenses" />
+            Coupons
+          </Menu.Item>
+          <Menu.Item key="35" icon={<TeamOutlined />}>
+            <Link to="/licenses" />
+            Messages
+          </Menu.Item>
         </Menu>
       </Sider>
     </>

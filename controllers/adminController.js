@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 const Admin = mongoose.model("Admin");
-
+const License = mongoose.model("License");
+const Config = mongoose.model("Config");
+const Coupon = mongoose.model('Coupon')
+const Client = mongoose.model("Client")
+const AuthSession = mongoose.model("AuthSession")
 /**
  *  Get all documents of a Model
  *  @param {Object} req.params
@@ -51,6 +55,7 @@ exports.list = async (req, res) => {
       .json({ success: false, result: [], message: "Oops there is an Error" });
   }
 };
+
 exports.profile = async (req, res) => {
   try {
     //  Query the database for a list of all results
@@ -74,7 +79,7 @@ exports.profile = async (req, res) => {
       result,
       message: "Successfully found Profile",
     });
-  } catch {
+  } catch  {
     return res.status(500).json({
       success: false,
       result: null,
@@ -332,9 +337,6 @@ exports.delete = async (req, res) => {
 };
 
 exports.search = async (req, res) => {
-  // console.log(req.query.fields)
-
-  // console.log(fields)
   try {
     if (
       req.query.q === undefined ||
@@ -384,3 +386,66 @@ exports.search = async (req, res) => {
     });
   }
 };
+
+exports.getDashboardStats = async (req, res) => {
+  try {
+    function getFirstDayPreviousMonth() {
+      const date = new Date();
+      const prevMonth = date.getMonth() - 1;
+      const firstDay = 1;
+
+      return new Date(date.getFullYear(), prevMonth, firstDay);
+    }
+    const toDate = new Date();
+    const firstDayOfThisMonth = new Date(toDate.getFullYear(), toDate.getMonth(), 1);
+    const firstDayPreviousMonth = getFirstDayPreviousMonth()
+    const condition = {
+      $or:
+        [
+          { "createdAt": { '$gte': firstDayOfThisMonth, '$lte': toDate.toISOString() } }
+          ,
+          { "created": { '$gte': firstDayOfThisMonth, '$lte': toDate.toISOString() } }
+        ]
+    };
+    let licences = await License.find({
+      ...condition
+    }).lean();
+    let clientsThisMonth = await Client.find({
+      ...condition
+    }).lean();
+    const allClients = await Client.countDocuments({})
+    const usersThisMonthPercent = (clientsThisMonth.length / allClients) * 100;
+    let coupons = await Coupon.find({
+      usedIn: {
+        $in: Object.values(licences).map(l => l._id)
+      }
+    }).lean();
+    const config = await Config.findOne().lean();
+    const incomeThisMonth = licences.reduce(
+      (acc, current) => acc + config[current["plan"] + "Price"] * (1 - current.discount / 100)
+      , 0)
+
+    let thisMonthLogins = await AuthSession.find({
+      ...condition, eventType: 'login'
+    }).lean();
+    let pastMonthLogins = await AuthSession.find(
+      {
+        "createdAt": { '$gte': firstDayPreviousMonth, '$lte': firstDayOfThisMonth.toISOString() }
+        , eventType: 'login'
+      }
+    ).lean();
+
+    // make unique by client
+    thisMonthLogins = thisMonthLogins.map(e=>e.client.toString()).filter((value, index, self) => self.indexOf(value) === index)
+    // make unique by client
+    pastMonthLogins = pastMonthLogins.map(e=>e.client.toString()).filter((value, index, self) => self.indexOf(value) === index)
+    thisMonthLogins = thisMonthLogins.length || 1
+    pastMonthLogins = pastMonthLogins.length || 1
+    const activeThisMonthPercent = ((thisMonthLogins - pastMonthLogins) / pastMonthLogins) * 100;
+    res.json({
+      activeThisMonthPercent, incomeThisMonth, usersThisMonthPercent
+    })
+  } catch (error) {
+    console.log({ error });
+  }
+}

@@ -10,11 +10,9 @@ export default function Admin() {
     searchFields: 'email,name,surname',
     outputValue: '_id'
   };
-
   const panelTitle = 'Panneau des administrateurs';
   const dataTableTitle = 'Liste des administrateurs';
   const entityDisplayLabels = ['email'];
-
   const readColumns = [
     { title: 'Nom', dataIndex: 'name' },
     { title: 'Nom de famille', dataIndex: 'surname' },

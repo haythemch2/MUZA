@@ -18,12 +18,13 @@ export default function CrudLayout({
   return (
     <DefaultLayout>
       <Layout style={{ minHeight: "100vh" }}>
-        <SidePanel
+      {!config.hideSidePanel && <SidePanel
           config={config}
           topContent={sidePanelTopContent}
           bottomContent={sidePanelBottomContent}
           fixHeaderPanel={fixHeaderPanel}
         ></SidePanel>
+      }
         <Layout className="site-layout">
           <HeaderContent />
           <Content

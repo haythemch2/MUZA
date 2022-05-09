@@ -1,6 +1,6 @@
 import React from 'react';
 
-import CrudModule from '@/modules/CrudModule';
+import CrudModule from '@/modules/CrudModuleClient';
 import CustomerForm from '@/forms/CustomerForm';
 
 function Customer() {
@@ -94,7 +94,6 @@ function Customer() {
     <CrudModule
       createForm={<CustomerForm />}
       updateForm={<CustomerForm isUpdateForm={true} />}
-
       config={config}
     />
   );

@@ -7,6 +7,8 @@ import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
 
 import { DashboardLayout } from '@/layout';
 import RecentTable from '@/components/RecentTable';
+import { useEffect } from 'react';
+import { axiosInstance } from './../request/request';
 
 const TopCard = ({ title, tagContent, tagColor, prefix }) => {
   return (
@@ -97,6 +99,17 @@ const PreviewState = ({ tag, color, value }) => {
   );
 };
 export default function Dashboard() {
+
+
+  const [stats, setStats] = useState({})
+  const { activeThisMonthPercent, incomeThisMonth, usersThisMonthPercent } = stats;
+  useEffect(() => {
+    axiosInstance.get("/admin/dashboard/stats").then(res => {
+      setStats(
+        res.data
+      )
+    })
+  }, [])
   const leadColumns = [
     {
       title: 'Client',
@@ -118,11 +131,6 @@ export default function Dashboard() {
   ];
 
   const productColumns = [
-    {
-      title: 'Product Name',
-      dataIndex: 'productName'
-    },
-
     {
       title: 'Price',
       dataIndex: 'price'
@@ -151,7 +159,7 @@ export default function Dashboard() {
           title={'Abonnements'}
           tagColor={'purple'}
           prefix={'Ce mois'}
-          tagContent={'34 000 €'}
+          tagContent={incomeThisMonth?.toFixed(2) + ' €'}
         />
         {/* <TopCard
           title={"Payment"}
@@ -234,18 +242,18 @@ export default function Dashboard() {
               className="pad20"
               style={{ textAlign: 'center', justifyContent: 'center' }}
             >
-              <h3 style={{ color: '#22075e', marginBottom: 30 }}>
+              <h3 style={{ color: usersThisMonthPercent > 0 ? '#22075e' : "red", marginBottom: 30 }}>
                 Nouveaux Clients
               </h3>
 
-              <Progress type="dashboard" percent={25} width={148} />
+              <Progress type="dashboard" percent={usersThisMonthPercent} width={148} />
               <p>nouveaux clients ce mois</p>
               <Divider />
               <Statistic
                 title="Clients Active"
-                value={11.28}
+                value={activeThisMonthPercent}
                 precision={2}
-                valueStyle={{ color: '#3f8600' }}
+                valueStyle={{ color: activeThisMonthPercent > 0 ? '#3f8600' : "red" }}
                 prefix={<ArrowUpOutlined />}
                 suffix="%"
               />
@@ -254,30 +262,6 @@ export default function Dashboard() {
         </Col>
       </Row>
       <div className="space30"></div>
-      {/* <Row gutter={[24, 24]}>
-        <Col className="gutter-row" span={12}>
-          <div className="whiteBox shadow">
-            <div className="pad20">
-              <h3 style={{ color: '#22075e', marginBottom: 5 }}>
-                Recent Leads
-              </h3>
-            </div>
-
-            <RecentTable entity={'lead'} dataTableColumns={leadColumns} />
-          </div>
-        </Col>
-
-        <Col className="gutter-row" span={12}>
-          <div className="whiteBox shadow">
-            <div className="pad20">
-              <h3 style={{ color: '#22075e', marginBottom: 5 }}>
-                Recent Products
-              </h3>
-            </div>
-            <RecentTable entity={'product'} dataTableColumns={productColumns} />
-          </div>
-        </Col>
-      </Row> */}
     </DashboardLayout>
   );
 }

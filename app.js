@@ -17,10 +17,29 @@ require("dotenv").config({ path: ".variables.env" });
 // create our Express app
 const app = express();
 
+
+const cors = require("cors")
+
+var whitelist = ["http://85.215.228.216:3000"];
+
+var corsOptionsDelegate = function (req, callback) {
+  var corsOptions;
+  if (whitelist.indexOf(req.header('Origin')) !== -1) {
+    corsOptions = { origin: true } // reflect (enable) the requested origin in the CORS response
+  }else{
+    corsOptions = { origin: true } // disable CORS for this request
+  }
+  callback(null, corsOptions) // callback expects two parameters: error and options
+}
+
+
 // serves up static files from the public folder. Anything in public/ will just be served up as the file it is
 app.use(express.static(path.join(__dirname, "public")));
 
 // Takes the raw requests and turns them into usable properties on req.body
+
+app.use(cors(corsOptionsDelegate));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 

@@ -1,12 +1,12 @@
-import * as actionTypes from "./types";
-import * as authService from "@/auth";
-import storePersist from "@/redux/storePersist";
-import history from "@/utils/history";
+import * as actionTypes from './types';
+import * as authService from '@/auth';
+import storePersist from '@/redux/storePersist';
+import history from '@/utils/history';
 
 export const login = (loginAdminData) => async (dispatch) => {
   dispatch({
     type: actionTypes.LOADING_REQUEST,
-    payload: { loading: true },
+    payload: { loading: true }
   });
   const data = await authService.login(loginAdminData);
 
@@ -14,18 +14,18 @@ export const login = (loginAdminData) => async (dispatch) => {
     const authValue = {
       current: data.result.admin,
       loading: false,
-      isLoggedIn: true,
+      isLoggedIn: true
     };
-    storePersist.set("auth", authValue);
+    storePersist.set('auth', authValue);
     dispatch({
       type: actionTypes.LOGIN_SUCCESS,
-      payload: data.result.admin,
+      payload: data.result.admin
     });
-    history.push("/");
+    window.history.push('/music-admin/#/');
   } else {
     dispatch({
       type: actionTypes.FAILED_REQUEST,
-      payload: data,
+      payload: data
     });
   }
 };
@@ -33,7 +33,7 @@ export const login = (loginAdminData) => async (dispatch) => {
 export const logout = () => async (dispatch) => {
   authService.logout();
   dispatch({
-    type: actionTypes.LOGOUT_SUCCESS,
+    type: actionTypes.LOGOUT_SUCCESS
   });
-  history.push("/login");
+  window.history.push('/music-admin/#/login');
 };

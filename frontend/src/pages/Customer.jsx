@@ -2,12 +2,13 @@ import React from 'react';
 
 import CrudModule from '@/modules/CrudModuleClient';
 import CustomerForm from '@/forms/CustomerForm';
+import NavigationListener from '@/components/NavigationListener';
 
 function Customer() {
   const entity = 'client';
   const searchConfig = {
-    displayLabels: ['société', 'Nom de famille', 'Nom'],
-    searchFields: 'company,surname,name',
+    displayLabels: ['surname','name' , 'company'],
+    searchFields: 'surname,name,company',
     outputValue: '_id'
   };
 
@@ -91,11 +92,14 @@ function Customer() {
     entityDisplayLabels
   };
   return (
+    <>
+    <NavigationListener  location={location} />
     <CrudModule
       createForm={<CustomerForm />}
       updateForm={<CustomerForm isUpdateForm={true} />}
       config={config}
     />
+    </>
   );
 }
 

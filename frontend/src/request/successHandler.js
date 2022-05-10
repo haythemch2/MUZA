@@ -1,4 +1,4 @@
-import { notification } from "antd";
+import notification  from "@/notification";
 
 import codeMessage from "./codeMessage";
 

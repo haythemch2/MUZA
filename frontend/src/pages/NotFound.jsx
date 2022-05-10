@@ -1,12 +1,14 @@
 import React, { useEffect } from "react";
 import { Button, Result } from "antd";
 import history from "@/utils/history";
+import NavigationListener from "@/components/NavigationListener";
 const NotFound = () => {
   useEffect(() => {
     history.replace("/notfound");
   }, []);
   return (
     <>
+    <NavigationListener  location={location} />
       <Result
         status="404"
         title="404"

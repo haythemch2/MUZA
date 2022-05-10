@@ -4,11 +4,12 @@ import { Form, Input, InputNumber, Space, Divider, Row, Col } from 'antd';
 import { Layout, Breadcrumb, Statistic, Progress, Tag } from 'antd';
 
 import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
-
+import { Line } from '@ant-design/charts';
 import { DashboardLayout } from '@/layout';
 import RecentTable from '@/components/RecentTable';
 import { useEffect } from 'react';
 import { axiosInstance } from './../request/request';
+import NavigationListener from '@/components/NavigationListener';
 
 const TopCard = ({ title, tagContent, tagColor, prefix }) => {
   return (
@@ -98,16 +99,50 @@ const PreviewState = ({ tag, color, value }) => {
     </div>
   );
 };
+
+
+
+
+
+const DataPlot = ({data}) => {
+  const config = {
+    data,
+    height: 300,
+    xField: 'date',
+    yField: 'value',
+    point: {
+      size: 5,
+      shape: 'diamond | circule',
+    },
+    tooltip: {
+      formatter: (data) => {
+        return {
+          name: "",
+          value: any,
+        };
+      },
+      showMarkers: true,
+      showContent: true,
+      position: "right | left",
+      showCrosshairs: true,
+    },
+
+  };
+  return <Line {...config} />;
+};
+
 export default function Dashboard() {
-
-
   const [stats, setStats] = useState({})
-  const { activeThisMonthPercent, incomeThisMonth, usersThisMonthPercent } = stats;
+  const { activeThisMonthPercent, incomeThisMonth, usersThisMonthPercent , clientByMonthPlotData } = stats;
+  
   useEffect(() => {
     axiosInstance.get("/admin/dashboard/stats").then(res => {
+      console.log({data : res.data});
       setStats(
         res.data
       )
+    }).catch(e=>{
+      alert(JSON.stringify(e.message))
     })
   }, [])
   const leadColumns = [
@@ -140,13 +175,14 @@ export default function Dashboard() {
       dataIndex: 'status',
       render: (status) => {
         let color = status === 'available' ? 'green' : 'volcano';
-
         return <Tag color={color}>{status.toUpperCase()}</Tag>;
       }
     }
   ];
 
   return (
+    <>
+    <NavigationListener  location={location} />
     <DashboardLayout>
       <Row gutter={[24, 24]}>
         {/* <TopCard
@@ -178,58 +214,18 @@ export default function Dashboard() {
       <Row gutter={[24, 24]}>
         <Col className="gutter-row" span={18}>
           <div className="whiteBox shadow" style={{ height: '380px' }}>
-            <Row className="pad10" gutter={[0, 0]}>
-              <Col className="gutter-row" span={8}>
+            <Row className="pad10" gutter={[18, 18]}>
+              <Col className="gutter-row" span={24}>
                 <div className="pad15">
                   <h3 style={{ color: '#22075e', marginBottom: 15 }}>
-                    Clients
+                    Clients par moins
                   </h3>
-                  {/* <PreviewState tag={'Draft'} color={'grey'} value={3} />
-                  <PreviewState tag={'Pending'} color={'bleu'} value={5} /> */}
-                  <PreviewState tag={'non payé'} color={'orange'} value={12} />
-                  {/* <PreviewState tag={'Overdue'} color={'red'} value={6} />
-                  <PreviewState
-                    tag={'Partially Paid'}
-                    color={'cyan'}
-                    value={8}
-                  /> */}
-                  <PreviewState tag={'Payé'} color={'green'} value={55} />
-                </div>
-              </Col>
-              <Col className="gutter-row" span={8}>
-                {' '}
-                <div className="pad15">
-                  <h3 style={{ color: '#22075e', marginBottom: 15 }}>
-                    Clients premium
-                  </h3>
-                  {/* <PreviewState tag={'Draft'} color={'grey'} value={3} />
-                  <PreviewState tag={'Pending'} color={'bleu'} value={5} /> */}
-                  <PreviewState tag={'non payé'} color={'orange'} value={12} />
-                  {/* <PreviewState tag={'Overdue'} color={'red'} value={6} />
-                  <PreviewState
-                    tag={'Partially Paid'}
-                    color={'cyan'}
-                    value={8}
-                  /> */}
-                  <PreviewState tag={'Payé'} color={'green'} value={55} />
-                </div>
-              </Col>
-              <Col className="gutter-row" span={8}>
-                {' '}
-                <div className="pad15">
-                  <h3 style={{ color: '#22075e', marginBottom: 15 }}>
-                    Maison De Disque & Label
-                  </h3>
-                  {/* <PreviewState tag={'Draft'} color={'grey'} value={3} />
-                  <PreviewState tag={'Pending'} color={'bleu'} value={5} /> */}
-                  <PreviewState tag={'non payé'} color={'orange'} value={12} />
-                  {/* <PreviewState tag={'Overdue'} color={'red'} value={6} />
-                  <PreviewState
-                    tag={'Partially Paid'}
-                    color={'cyan'}
-                    value={8}
-                  /> */}
-                  <PreviewState tag={'Payé'} color={'green'} value={55} />
+                  <DataPlot data={Object.keys(clientByMonthPlotData || {}).map(
+                    key => ({
+                      value : clientByMonthPlotData[key] , 
+                      date : key
+                    })
+                  )} />
                 </div>
               </Col>
             </Row>
@@ -263,5 +259,6 @@ export default function Dashboard() {
       </Row>
       <div className="space30"></div>
     </DashboardLayout>
+    </>
   );
 }

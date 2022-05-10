@@ -79,7 +79,7 @@ exports.profile = async (req, res) => {
       result,
       message: "Successfully found Profile",
     });
-  } catch  {
+  } catch {
     return res.status(500).json({
       success: false,
       result: null,
@@ -387,13 +387,19 @@ exports.search = async (req, res) => {
   }
 };
 
+var groupBy = function (xs, key) {
+  return xs.reduce(function (rv, x) {
+    (rv[x[key]] = rv[x[key]] || []).push(x);
+    return rv;
+  }, {});
+};
+
 exports.getDashboardStats = async (req, res) => {
   try {
     function getFirstDayPreviousMonth() {
       const date = new Date();
       const prevMonth = date.getMonth() - 1;
       const firstDay = 1;
-
       return new Date(date.getFullYear(), prevMonth, firstDay);
     }
     const toDate = new Date();
@@ -410,11 +416,36 @@ exports.getDashboardStats = async (req, res) => {
     let licences = await License.find({
       ...condition
     }).lean();
+    let allClients = await Client.find({}).lean()
+    let clientByMonthPlotData = {}
+    if (allClients) {
+      allClients = allClients.sort((a, b) =>
+        (new Date(a.created) - new Date(b.created))).map(
+          (client) => ({
+            ...client,
+            year: new Date(client.created).getFullYear(),
+            month: new Date(client.created).getMonth(),
+          })
+        )
+      let allClientsByYear = groupBy(allClients, "year")
+      for (let year in allClientsByYear) {
+        allClientsByYear[year] = groupBy(allClientsByYear[year], "month")
+        for (let month = 0; month < 12; month++) {
+          clientByMonthPlotData[`${year}-${month + 1}`] = (allClientsByYear[year][month] || []).length
+          if (
+            year == (new Date()).getFullYear() &&
+            month == (new Date()).getMonth()
+          ) {
+            break;
+          }
+        }
+      }
+    } 
     let clientsThisMonth = await Client.find({
       ...condition
     }).lean();
-    const allClients = await Client.countDocuments({})
-    const usersThisMonthPercent = (clientsThisMonth.length / allClients) * 100;
+    const allClientsCount = await Client.countDocuments({})
+    const usersThisMonthPercent = (clientsThisMonth.length / allClientsCount) * 100;
     let coupons = await Coupon.find({
       usedIn: {
         $in: Object.values(licences).map(l => l._id)
@@ -424,7 +455,6 @@ exports.getDashboardStats = async (req, res) => {
     const incomeThisMonth = licences.reduce(
       (acc, current) => acc + config[current["plan"] + "Price"] * (1 - current.discount / 100)
       , 0)
-
     let thisMonthLogins = await AuthSession.find({
       ...condition, eventType: 'login'
     }).lean();
@@ -436,14 +466,14 @@ exports.getDashboardStats = async (req, res) => {
     ).lean();
 
     // make unique by client
-    thisMonthLogins = thisMonthLogins.map(e=>e.client.toString()).filter((value, index, self) => self.indexOf(value) === index)
+    thisMonthLogins = thisMonthLogins.map(e => e.client.toString()).filter((value, index, self) => self.indexOf(value) === index)
     // make unique by client
-    pastMonthLogins = pastMonthLogins.map(e=>e.client.toString()).filter((value, index, self) => self.indexOf(value) === index)
+    pastMonthLogins = pastMonthLogins.map(e => e.client.toString()).filter((value, index, self) => self.indexOf(value) === index)
     thisMonthLogins = thisMonthLogins.length || 1
     pastMonthLogins = pastMonthLogins.length || 1
     const activeThisMonthPercent = ((thisMonthLogins - pastMonthLogins) / pastMonthLogins) * 100;
     res.json({
-      activeThisMonthPercent, incomeThisMonth, usersThisMonthPercent
+      activeThisMonthPercent, incomeThisMonth, usersThisMonthPercent, clientByMonthPlotData
     })
   } catch (error) {
     console.log({ error });

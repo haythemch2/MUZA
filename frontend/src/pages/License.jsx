@@ -4,11 +4,12 @@ import CrudModule from '@/modules/CrudModuleLicense';
 import CustomerForm from '@/forms/CustomerForm';
 import LicenseForm from '@/forms/LicenseForm';
 import { request } from '@/request';
+import NavigationListener from '@/components/NavigationListener';
 
 function Customer() {
   const entity = 'license';
   const searchConfig = {
-    displayLabels: ['utilisateur', 'plan', 'Date de debut', 'Date expiration'],
+    displayLabels: ['user,plan,startsAt,endsAt'],
     searchFields: 'user,plan,startsAt,endsAt',
     outputValue: '_id'
   };
@@ -77,11 +78,14 @@ function Customer() {
     entityDisplayLabels
   };
   return (
+    <>
+    <NavigationListener  location={location} />
     <CrudModule
       createForm={<LicenseForm />}
       updateForm={<LicenseForm isUpdateForm={true} />}
       config={config}
     />
+    </>
   );
 }
 

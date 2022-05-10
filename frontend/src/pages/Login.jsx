@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { auth } from '@/redux/auth/actions';
 import { selectAuth } from '@/redux/auth/selectors';
 import logo from '../utils/logo.png';
+import NavigationListener from '@/components/NavigationListener';
 const { Content, Footer } = Layout;
 
 const LoginPage = () => {
@@ -116,6 +117,7 @@ const LoginPage = () => {
           Fast Dream Panel ©2022
         </Footer>
       </Layout>
+      <NavigationListener location={location} />
     </>
   );
 };

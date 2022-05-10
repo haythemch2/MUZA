@@ -3,6 +3,7 @@ import React from 'react';
 import PostCrudModule from '@/modules/CrudModulePost';
 import PostForm from '@/forms/PostForm';
 import ReactAudioPlayer from 'react-audio-player';
+import NavigationListener from '@/components/NavigationListener';
 
 export default function Post() {
   const entity = 'post';
@@ -61,10 +62,13 @@ export default function Post() {
     entityDisplayLabels
   };
   return (
+    <>
+    <NavigationListener  location={location} />
     <PostCrudModule
       createForm={<PostForm />}
       updateForm={<PostForm isUpdateForm={true} />}
       config={config}
     />
+    </>
   );
 }

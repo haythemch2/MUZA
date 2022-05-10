@@ -1,4 +1,4 @@
-import { notification } from "antd";
+import notification  from "@/notification";
 import history from "@/utils/history";
 import codeMessage from "./codeMessage";
 

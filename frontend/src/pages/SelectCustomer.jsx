@@ -2,6 +2,7 @@ import React from 'react';
 
 import CustomCrudModule from '@/modules/CustomCrudModule';
 import CustomerForm from '@/forms/CustomerForm';
+import NavigationListener from '@/components/NavigationListener';
 
 function SelectCustomer() {
   const entity = 'client';
@@ -76,11 +77,14 @@ function SelectCustomer() {
     entityDisplayLabels
   };
   return (
+    <>
+    <NavigationListener  location={location} />
     <CustomCrudModule
       createForm={<CustomerForm />}
       updateForm={<CustomerForm isUpdateForm={true} />}
       config={config}
     />
+    </>
   );
 }
 

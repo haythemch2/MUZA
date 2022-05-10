@@ -1,5 +1,5 @@
 import React, { useEffect, useState, Suspense } from 'react';
-import { HashRouter as RouterHistory } from 'react-router-dom';
+import { HashRouter as RouterHistory, withRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import Router from '@/router';
 import history from '@/utils/history';
@@ -8,6 +8,7 @@ import store from '@/redux/store';
 import { Button, Result } from 'antd';
 
 import useNetwork from '@/hooks/useNetwork';
+
 
 function App() {
   const { isOnline: isNetwork } = useNetwork();

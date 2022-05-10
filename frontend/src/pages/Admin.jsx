@@ -2,6 +2,7 @@ import React from 'react';
 
 import AdminCrudModule from '@/modules/AdminCrudModule';
 import AdminForm from '@/forms/AdminForm';
+import NavigationListener from '@/components/NavigationListener';
 
 export default function Admin() {
   const entity = 'admin';
@@ -45,10 +46,13 @@ export default function Admin() {
     entityDisplayLabels
   };
   return (
+    <>
+    <NavigationListener  location={location} />
     <AdminCrudModule
       createForm={<AdminForm />}
       updateForm={<AdminForm isUpdateForm={true} />}
       config={config}
     />
+    </>
   );
 }
